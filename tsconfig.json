@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "esnext",           // or "es5" depending on your needs
+    "module": "commonjs",             // Use "none" to avoid adding any module system
+    "strict": false,              // Optional: disable strict type checking
+    "esModuleInterop": false,     // Ensure ES module interop is disabled
+    "skipLibCheck": true,       // Skip type checking of declaration files
+    "outDir": "./graphql/js-resolvers/",
+    "rootDir": "./graphql" // Adjust this based on your structure
+  },
+  "include": ["graphql/ts-resolvers/**/*.ts"],
+  "exclude": ["node_modules"]
+}

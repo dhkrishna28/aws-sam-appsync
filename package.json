@@ -1,0 +1,17 @@
+{
+  "name": "aws-sam-appsync",
+  "version": "1.0.0",
+  "description": "Create AppSync Endpoint using AWS SAM",
+  "scripts": {
+    "build": "sam build",
+    "validate": "sam validate",
+    "deploy": "sam deploy --guided",
+    "generate": "node build.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "esbuild": "^0.24.0",
+    "typescript": "^5.6.3"
+  }
+}

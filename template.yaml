@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SAM template to create AppSync endpoint with Fake Store API
+
+Resources:
+
+  MyGraphQLApiKey:
+    Type: AWS::AppSync::ApiKey
+    Properties:
+      ApiId: !GetAtt MyGraphQLApi.ApiId
+
+  MyGraphQLApi:
+    Type: AWS::AppSync::GraphQLApi
+    Properties:
+      Name: allProductsData
+      AuthenticationType: API_KEY
+      XrayEnabled: false
+
+  MyGraphQLSchema:
+    Type: AWS::AppSync::GraphQLSchema
+    Properties:
+      ApiId: !GetAtt MyGraphQLApi.ApiId
+      DefinitionS3Location: ./graphql/schema.graphql
+
+  MyHttpDataSource:
+    Type: AWS::AppSync::DataSource
+    Properties:
+      ApiId: !GetAtt MyGraphQLApi.ApiId
+      Name: HttpDataSource
+      Type: HTTP
+      HttpConfig:
+        Endpoint: "https://fakestoreapi.com/"
+
+  ListProductsResolver:
+    Type: AWS::AppSync::Resolver
+    Properties:
+      ApiId: !GetAtt MyGraphQLApi.ApiId
+      TypeName: Query
+      FieldName: listProducts
+      DataSourceName: !GetAtt MyHttpDataSource.Name
+      Runtime:
+        Name: APPSYNC_JS
+        RuntimeVersion: "1.0.0"
+      CodeS3Location: ./graphql/js-resolvers/getAllProducts.js
+
+Outputs:
+  GraphQLApiEndpoint:
+    Description: "GraphQL API Endpoint"
+    Value: !Sub "https://${MyGraphQLApi.ApiId}.appsync-api.${AWS::Region}.amazonaws.com/graphql"
+
+  GraphQLApiKey:
+    Description: "API Key for the AppSync API"
+    Value: !GetAtt MyGraphQLApiKey.ApiKey

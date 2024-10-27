@@ -39,6 +39,11 @@ sam deploy --guided
 
 Once your deployment completes, you can see outputs printed in your terminal for both your API endpoint and your API key which you’ll need to test the application.
 
+To get the complete information of the created Appsync Graphql Endpoint - Run below command 
+
+```
+aws appsync get-graphql-api --api-id <API_ID>
+```
 
 ## Additional information for Pipeline settings and Generating javascript resolvers from typescript resolvers
 
